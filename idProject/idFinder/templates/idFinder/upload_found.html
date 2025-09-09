@@ -1,0 +1,35 @@
+{% extends 'idFinder/base.html' %}
+{% block title %}Upload Found ID{% endblock %}
+
+{% block content %}
+{% load widget_tweaks %}
+
+<div class="bg-white p-8 rounded-xl shadow-md max-w-xl mx-auto">
+
+  <h2 class="text-2xl font-bold text-blue-800 mb-4 text-center">Upload a Found ID</h2>
+  <form method="POST" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    
+    {% for field in form %}
+  <div>
+    <label for="{{ field.id_for_label }}" class="block text-gray-700 font-medium mb-1">
+      {{ field.label }}
+    </label>
+
+    {{ field|add_class:"w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" }}
+
+    {% if field.errors %}
+      <p class="text-sm text-red-600">{{ field.errors|striptags }}</p>
+    {% endif %}
+  </div>
+{% endfor %}
+
+
+    <!-- Submit Button -->
+    <button type="submit"
+      class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition">
+       Submit Found ID
+    </button>
+  </form>
+</div>
+{% endblock %}

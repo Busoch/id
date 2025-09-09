@@ -1,0 +1,83 @@
+{% extends 'idFinder/base.html' %}
+{% block title %}Found IDs{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">Found IDs</h2>
+
+<form method="GET" class="mb-6 relative" x-data="{ query: '', suggestions: [], show: false }" @click.away="show = false">
+  <input
+    type="text"
+    name="query"
+    placeholder="Search by name, location..."
+    value="{{ request.GET.query }}"
+    class="w-full p-2 border rounded"
+    x-model="query"
+    @input.debounce.300ms="
+      fetch('/search-suggestions/?q=' + query)
+        .then(res => res.json())
+        .then(data => {
+          suggestions = data;
+          show = true;
+        });
+    "
+    @focus="show = true"
+    autocomplete="off"
+  />
+
+  <!-- Suggestions Dropdown -->
+  <ul x-show="show && suggestions.length" class="absolute z-10 bg-white border w-full rounded shadow mt-1">
+    <template x-for="s in suggestions" :key="s.name_on_id + s.location_found">
+      <li>
+        <button
+          type="submit"
+          class="block w-full text-left px-4 py-2 hover:bg-blue-100"
+          @click="query = s.name_on_id"
+          x-text="s.name_on_id + ' (' + s.location_found + ')'"
+        ></button>
+      </li>
+    </template>
+  </ul>
+
+  <button type="submit" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Search</button>
+</form>
+
+
+{% if found_ids %}
+  <ul class="space-y-4">
+    {% for found in found_ids %}
+      <li class="bg-white shadow p-4 rounded">
+        <p><strong>Name:</strong> {{ found.name_on_id }}</p>
+        <p><strong>Location Found:</strong> {{ found.location_found }}</p>
+        <p><strong>Date:</strong> {{ found.date_found }}</p>
+
+        {% if found.image %}
+        <div x-data="{ open: false }" class="mt-4">
+          <!-- Thumbnail -->
+          <img
+            src="{{ found.image.url }}"
+            alt="Found ID"
+            class="w-4 h-3 object-cover rounded shadow cursor-pointer"
+            @click="open = true"
+          >
+
+          <!-- Modal -->
+          <div
+            x-show="open"
+            x-transition
+            class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+            @click.away="open = false"
+          >
+            <div class="bg-white p-4 rounded shadow max-w-lg w-full">
+              <img src="{{ found.image.url }}" class="w-full rounded">
+              <button class="mt-4 text-sm text-blue-600 hover:underline" @click="open = false">Close</button>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No matching records found.</p>
+{% endif %}
+{% endblock %}

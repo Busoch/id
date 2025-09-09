@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}ID Finder{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen">
+
+  <header class="bg-white shadow sticky top-0 z-50" x-data="{ open: false }">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-xl font-bold text-black">ID Finder</a>
+      <nav class="hidden md:flex space-x-4 text-sm sm:text-base">
+        <a href="/" class="text-black hover:underline">Home</a>
+        <a href="/upload-found/" class="text-black hover:underline">Upload Found ID</a>
+        <a href="/report-lost/" class="text-black hover:underline">Report Lost ID</a>
+        <a href="/found/" class="text-black hover:underline">View Found IDs</a>
+      </nav>
+
+      <!-- Hamburger Icon -->
+      <button @click="open = !open" class="md:hidden text-black focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div x-show="open" x-transition.duration.200ms
+         class="md:hidden bg-white border-t px-4 py-4 space-y-2">
+      <a href="/" class="block text-black hover:underline">Home</a>
+      <a href="/upload-found/" class="block text-black hover:underline">Upload Found ID</a>
+      <a href="/report-lost/" class="block text-black hover:underline">Report Lost ID</a>
+      <a href="/found/" class="block text-black hover:underline">View Found IDs</a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-3xl mx-auto px-4 py-6">
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends 'idFinder/base.html' %}
+{% block title %}Reported Lost IDs{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-bold text-center text-red-700 mb-6">All Reported Lost IDs</h2>
+
+{% if reports %}
+  <ul class="space-y-4">
+    {% for report in reports %}
+      <li class="bg-white shadow p-4 rounded">
+        <p><strong>Name:</strong> {{ report.name }}</p>
+        <p><strong>ID Number:</strong> {{ report.id_number }}</p>
+        <p><strong>Reported At:</strong> {{ report.reported_at|date:"F j, Y" }}</p>
+        <p><strong>Last Known Location:</strong> {{ report.last_seen_location }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-center text-gray-600">No reports found.</p>
+{% endif %}
+{% endblock %}

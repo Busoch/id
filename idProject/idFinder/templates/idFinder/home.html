@@ -1,0 +1,39 @@
+{% extends 'idFinder/base.html' %}
+{% block title %}Home - ID Finder{% endblock %}
+
+{% block content %}
+<div class="bg-white p-8 rounded-xl shadow-md max-w-xl mx-auto text-center">
+
+  <!-- Heading -->
+  <h2 class="text-2xl font-bold text-blue-800 mb-4">Welcome to ID Finder</h2>
+
+  <!-- Intro -->
+  <p class="text-gray-700 mb-6 leading-relaxed">
+    Use this platform to upload found IDs or report yours missing. Help others reconnect with their important documents.
+  </p>
+
+  <!-- Action Buttons -->
+  <div class="space-y-4">
+    <a href="/upload-found/"
+       class="block w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition">
+       Upload Found ID
+    </a>
+
+    <a href="/report-lost/"
+       class="block w-full bg-red-600 text-white font-medium py-2 rounded-lg hover:bg-red-700 transition">
+       Report Lost ID
+    </a>
+
+    <a href="/found/"
+       class="block w-full bg-gray-800 text-white font-medium py-2 rounded-lg hover:bg-gray-900 transition">
+       View Found IDs
+    </a>
+
+    <a href="/lost-reports/"
+       class="block w-full bg-yellow-600 text-white font-medium py-2 rounded-lg hover:bg-yellow-700 transition">
+       View Lost Reports
+    </a>
+  </div>
+
+</div>
+{% endblock %}
